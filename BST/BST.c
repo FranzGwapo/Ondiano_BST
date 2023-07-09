@@ -6,11 +6,9 @@
 
 //using recursive method
 BST *addElement(BST *list, Product item){
-	if(list==NULL){
+	if(isEmpty(list)){
 		BSTPtr newPtr = malloc(sizeof(BST));
-		if(newPtr==NULL){
-			return;
-		}
+
 		newPtr->left = NULL;
 		newPtr->right = NULL;
 		newPtr->data = item;
@@ -20,11 +18,11 @@ BST *addElement(BST *list, Product item){
 	}
 	
 	else if(list->data.prodID < item.prodID){
-		addElement(list->right, item);
+		list->right = addElement(list->right, item);
 		
 	}
 	else if(list->data.prodID > item.prodID){
-		addElement(list->left, item);
+		list->left = addElement(list->left, item);
 	
 	}
 	
@@ -60,11 +58,19 @@ void inOrderBST(BST *list){
 }
 
 void preOrderBST(BST *list){
-	
+	if(list!=NULL){
+		displayProduct(list->data);
+		preOrderBST(list->left);
+		preOrderBST(list->right);
+	}
 }
 
 void postOrderBST(BST *list){
-	
+	if(list!=NULL){
+		postOrderBST(list->left);
+		postOrderBST(list->right);
+		displayProduct(list->data);
+	}
 }
 
 
@@ -98,7 +104,36 @@ void displayProduct(Product prod){
 	printf("{ <%d> | <%s> }\n", prod.prodID, prod.prodName);
 }
 
-BST *max(BST *list);
-BST *min(BST *list);
-bool isMember(BST *list, int prodID);
+BST *max(BST *list){
+	while(list->right !=NULL){
+		list = list->right;
+	}
+	return list;
+}
 
+BST *min(BST *list){
+	while(list->left !=NULL){
+		list = list->left;
+	}
+	return list;
+}
+
+bool isMember(BST *list, int prodID){
+	int i;
+	BSTPtr trav = list;
+	while(trav!=NULL){
+		if(trav->data.prodID == prodID){
+			return true;
+		}
+		else{
+			if(trav->data.prodID > prodID){
+				trav = trav->left;
+			}
+			else{
+				trav = trav->right;
+			}
+		}
+	}
+
+	return false;
+}

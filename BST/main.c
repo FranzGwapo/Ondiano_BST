@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[]) {
 	BSTPtr bstPtr;
+	bool state;
 	initBST(&bstPtr);
 	
 	Product prod1 = createProduct(123, "Franz", 5, 25.25);
@@ -12,10 +13,33 @@ int main(int argc, char *argv[]) {
 	Product prod3 = createProduct(122, "Ondiano", 8, 25.25);
 	
 	bstPtr = addElement(bstPtr, prod1);
-	bstPtr = addElement(bstPtr, prod2);
-	bstPtr = addElement(bstPtr, prod3);
+	addElement(bstPtr, prod2);
+	addElement(bstPtr, prod3);
 
+	printf("In Order:\n");
 	inOrderBST(bstPtr);
+	printf("\nPre Order:\n");
+	preOrderBST(bstPtr);
+	printf("\nPost Order:\n");
+	postOrderBST(bstPtr);
+	
+	printf("Is Member (456)\n");
+	state = isMember(bstPtr, 789);
+	if(state){
+		printf("True\n\n");
+	}
+	else{
+		printf("False\n\n");
+	}
+	
+	BSTPtr bstPtrMin = bstPtr;
+	bstPtrMin = min(bstPtrMin);
+	printf("Min Product: %d\n", bstPtrMin->data.prodID);
+	
+	BSTPtr bstPtrMax = bstPtr;
+	bstPtrMax = max(bstPtrMax);
+	printf("Max Product: %d", bstPtrMax->data.prodID);
+	
 
 	return 0;
 }
